@@ -1,14 +1,11 @@
 {
-  "name": "es6-6to5-browserify-boilerplate",
+  "name": "Users-list-workshop",
   "version": "0.0.0",
-  "description": "A repo to play with ES6++",
-  "homepage": "https://github.com/thoughtram/es6-6to5-browserify-boilerplate",
+  "description": "",
+  "homepage": "https://github.com/VadimZhiltsov/Users-list-workshop",
   "repository": {
     "type": "git",
-    "url": "git://github.com/thoughtram/es6-6to5-browserify-boilerplate.git"
-  },
-  "bugs": {
-    "url": "https://github.com/thoughtram/es6-6to5-browserify-boilerplate/issues"
+    "url": "git@github.com:VadimZhiltsov/Users-list-workshop.git"
   },
   "devDependencies": {
     "babelify": "~5.0.3",
@@ -21,6 +18,6 @@
     "watchify": "^2.1.1",
     "vinyl-source-stream": "^1.0.0"
   },
-  "author": "Christoph Burgdorf <christoph@thoughtram.io>",
+  "author": "Vadim Zhiltsov <vadim.zhiltsov@mail.ru>",
   "license": "MIT"
 }
