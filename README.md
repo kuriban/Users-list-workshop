@@ -54,30 +54,30 @@ Task runner to make defining and running the tasks simpler.
 ### What you need to do:
 
 1. Create login page
-1.1 using ajax send request and verify credentials
-1.1.1 if credentials are correct, send user to list page
-1.1.2 if credentials are wrong, show message
+  1. using ajax send request and verify credentials
+     1. if credentials are correct, send user to list page
+     2. if credentials are wrong, show message
 
 2. Create user list page:
-2.1 show all users from http://193.111.63.76:3000/api/v1/Users in table
-2.2 each user should have link to edit page
-2.3 each user should have delete button
-2.4 page must have create user link
+  1. show all users from http://193.111.63.76:3000/api/v1/Users in table
+  2. each user should have link to edit page
+  3. each user should have delete button
+  4. page must have create user link
 
 3. Create user creation page
-3.1 page must have form:
-3.1.1 page must have email field (unique) (required)
-3.1.2 page must have password field (required)
-3.1.3 page must have name field (required)
-3.1.4 page must have comment field
-3.1.5 page must have simple validation
-3.2 page should be submited by ajax
-3.3 when form submited successefully, user should be redirected to list page
+  1. page must have form:
+    1. page must have email field (unique) (required)
+    2. page must have password field (required)
+    3. page must have name field (required)
+    4. page must have comment field
+    5. page must have simple validation
+  2. page should be submited by ajax
+  3. when form submited successefully, user should be redirected to list page
 
 4. Create edit user page
-4.1 page must have the same form as for Create page, but with preloaded data
-4.2 submit button should be disabled untill user data is loaded
-4.3 when form submited successefully, user should be redirected to list page
+  1. page must have the same form as for Create page, but with preloaded data
+  2. submit button should be disabled untill user data is loaded
+  3. when form submited successefully, user should be redirected to list page
 
 
 
