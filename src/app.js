@@ -6,9 +6,12 @@ if (window.pageName){
 	switch (pageName) {
 		case 'edit':
 			initEditPage();
+			break;
 		case 'list':
 			initListPage();
+			break;
 		case 'create':
 			initCreatePage();
+			break;
 	}
 }
