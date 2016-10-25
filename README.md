@@ -5,8 +5,8 @@
 
 ```bash
 # Clone the repo...
-git clone https://github.com/VadimZhiltsov/.git
-cd 
+git clone git@github.com:VadimZhiltsov/Users-list-workshop.git
+cd Users-list-workshop
 
 # Then, you need to install all the dependencies...
 npm install
