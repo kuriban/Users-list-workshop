@@ -15,9 +15,6 @@ npm install -g gulp
 
 ### Running in the browser
 ```bash
-gulp build
-gulp serve
-
 # If you wanna Gulp to re-build on every change...
 gulp watch
 ```
