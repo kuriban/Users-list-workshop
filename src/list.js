@@ -1,4 +1,5 @@
 import EditPage from "../src/edit.js"
+import CreatePage from "../src/create.js"
 
 export class ListPage {
 	constructor(){
@@ -17,7 +18,27 @@ export class ListPage {
 				EditPage.prototype.DeleteUser.call(this,id);
 			}
 		})
+		document.querySelector("a.link").addEventListener("click",(event)=>{
+			event.preventDefault();
+			var username = event.target.getAttribute("data-username");
+			var id = event.target.getAttribute("data-id");
+			var data = {
+				name : username
+			};
+
+			var p1 = new Promise(
+					(resolve, reject)=> {
+						CreatePage.prototype.SendRequest.call(this,data,id,true);
+					});
+			p1.then(
+					function(userData){
+						console.log("userData 1="+userData);
+						CreatePage.prototype.SetDataForm.call(this,userData);
+					}
+			);
+		})
 	}
+
 	GetUserList(){
 		fetch(this.url, {
 			method : "GET"
@@ -48,7 +69,7 @@ export class ListPage {
 		data.forEach((item)=>{
 			this.CreateTr().CreateTd(item.name).AppendInTable();
 			this.CreateTd(item.email).AppendInTable();
-			this.CreateTd("<a href='"+this.url+"/"+item._id+"'>"+this.url+"/"+item._id+"</a>").AppendInTable();
+			this.CreateTd("<a class='link' data-id='"+item._id+"' href='"+this.url+"/"+item._id+"' data-username='"+item.name+"'>"+this.url+"/"+item._id+"</a>").AppendInTable();
 			this.CreateTd(item.comment).AppendInTable();
 			this.CreateTd("<a href='"+this.url+"/"+item._id+"' data-id='"+item._id+"'><img src='../img/drop.png'></a>").AppendInTable();
 		})

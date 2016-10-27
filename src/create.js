@@ -28,10 +28,11 @@ export default class CreatePage {
 	 * Отправка запроса
 	 * @param data данные для запроса ввиде объекта
 	 * @param parametr_request параметр строки URL запроса
+	 * @param return_data возвращать ли результат запроса
 	 * @constructor
      */
-	SendRequest(data,parametr_request){
-		debugger;
+	SendRequest(data,parametr_request,return_data){
+		var responce = "";
 		var myHeaders = new Headers(); // создаём объект заголовков
 		myHeaders.append("Content-Type", "application/json");   /// добавляем заголовок Content-Type чтоб сказать серверу в каком формате данные передаём
 		var myInit = {
@@ -47,10 +48,16 @@ export default class CreatePage {
 					return response.json(); /// парсим ответ от сервера в json
 				})
 				.then(function(json) {
+					if (return_data) {
+						responce = json;
+					}else{
+						window.location.href = "list-page.html";
+					}
 					/// здесь ответ json от сервера
-					window.location.href = "list-page.html";
 					//alert(JSON.stringify(json))
 				});
+		if(return_data)
+			return responce;
 	}
 
 	/**
@@ -64,6 +71,17 @@ export default class CreatePage {
 		this.email = document.querySelector("input[name=email]").value;
 		this.comment = document.querySelector("input[name=comment]").value;
 		this.url = document.querySelector("#form").getAttribute("action");
+	}
+
+	/**
+	 * Задание полученныз данных пользователя
+	 * @param data данные пользователя, полученные с сервера, в формате объекта
+	 * @constructor
+     */
+	SetDataForm(data){
+		document.querySelector("input[name=name]").value = data.name;
+		document.querySelector("input[name=email]").value = data.email;
+		document.querySelector("input[name=comment]").value = data.comment;
 	}
 }
 
