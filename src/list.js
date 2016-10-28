@@ -6,37 +6,37 @@ export class ListPage {
 		this.url = "http://193.111.63.76:3000/api/v1/Users";
 		this.GetUserList();
 	}
-	submitButton(){
-		document.querySelector("input[name=createUser]").addEventListener("click",function(){
+	submitButton() {
+		document.querySelector("input[name=createUser]").addEventListener("click", function () {
 			window.location.href = "create-page.html";
 		});
-		document.querySelector("img").addEventListener("click",(event)=>{
-			event.preventDefault();
-			console.log(event.target.parentNode.getAttribute("href"));
-			if(confirm("Удалить пользователя?")){
-				var id = event.target.parentNode.getAttribute("data-id");
-				EditPage.prototype.DeleteUser.call(this,id);
-			}
-		})
-		document.querySelector("a.link").addEventListener("click",(event)=>{
-			event.preventDefault();
-			var username = event.target.getAttribute("data-username");
-			var id = event.target.getAttribute("data-id");
-			var data = {
-				name : username
-			};
-
-			var p1 = new Promise(
-					(resolve, reject)=> {
-						CreatePage.prototype.SendRequest.call(this,data,id,true);
+		Array.from(document.querySelectorAll("img")).forEach((element)=> {
+			element.addEventListener("click", (event)=> {
+				event.preventDefault();
+				console.log(event.target.parentNode.getAttribute("href"));
+				if (confirm("Удалить пользователя?")) {
+					var id = event.target.parentNode.getAttribute("data-id");
+					EditPage.prototype.DeleteUser.call(this, id,()=>{
+						window.location.reload();
 					});
-			p1.then(
-					function(userData){
-						console.log("userData 1="+userData);
-						CreatePage.prototype.SetDataForm.call(this,userData);
-					}
-			);
-		})
+				}
+			})
+		});
+		Array.from(document.querySelectorAll(".link")).forEach((element)=> {
+			element.addEventListener("click", (event)=> {
+				event.preventDefault();
+				var username = event.target.getAttribute("data-username");
+				var id = event.target.getAttribute("data-id");
+				var data = {
+					name: username
+				};
+				CreatePage.prototype.SendRequest.call(this, data, id, true,(userData)=>{
+					var url = "?name="+userData.name+"&email="+userData.email+"&comment="+userData.comment;
+					window.location.href = "edit-page.html"+url;
+					//EditPage.prototype.SetDataForm.call(this, userData);
+				});
+			})
+		});
 	}
 
 	GetUserList(){

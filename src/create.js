@@ -29,9 +29,10 @@ export default class CreatePage {
 	 * @param data данные для запроса ввиде объекта
 	 * @param parametr_request параметр строки URL запроса
 	 * @param return_data возвращать ли результат запроса
+	 * @param callback возвращает результат
 	 * @constructor
      */
-	SendRequest(data,parametr_request,return_data){
+	SendRequest(data,parametr_request,return_data,callback){
 		var responce = "";
 		var myHeaders = new Headers(); // создаём объект заголовков
 		myHeaders.append("Content-Type", "application/json");   /// добавляем заголовок Content-Type чтоб сказать серверу в каком формате данные передаём
@@ -49,12 +50,10 @@ export default class CreatePage {
 				})
 				.then(function(json) {
 					if (return_data) {
-						responce = json;
+						callback(json);
 					}else{
 						window.location.href = "list-page.html";
 					}
-					/// здесь ответ json от сервера
-					//alert(JSON.stringify(json))
 				});
 		if(return_data)
 			return responce;
@@ -73,16 +72,7 @@ export default class CreatePage {
 		this.url = document.querySelector("#form").getAttribute("action");
 	}
 
-	/**
-	 * Задание полученныз данных пользователя
-	 * @param data данные пользователя, полученные с сервера, в формате объекта
-	 * @constructor
-     */
-	SetDataForm(data){
-		document.querySelector("input[name=name]").value = data.name;
-		document.querySelector("input[name=email]").value = data.email;
-		document.querySelector("input[name=comment]").value = data.comment;
-	}
+
 }
 
 export default function initPage() {
