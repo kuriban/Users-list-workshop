@@ -1,10 +1,10 @@
-import CreatePage from "../src/create.js";
+import {CreatePage} from "../src/create.js";
+import {UserModel} from "../src/user-model.js"
 
-export default class EditPage {
+class EditPage {
 	constructor(){
 		this.setupButton();
-		this.DecodeUrl();
-		this.SetDataForm();
+		this.DecodeUrl().GetUserData();
 	}
 
 	DecodeUrl(){
@@ -12,26 +12,32 @@ export default class EditPage {
 		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
 			vars[key] = value;
 		});
-		this.name = vars.name;
-		this.name = vars.email;
-		this.name = vars.comment;
+		this.id = vars.id;
+		return this;
+	}
+	GetUserData(){
+		UserModel.GetOneUser(this.id,(userData)=>{
+			this.id = userData._id;
+			this.name = userData.name;
+			this.email = userData.email;
+			this.comment = userData.comment;
+			this.SetDataForm();
+		})
 	}
 
 	setupButton(){
 		document.querySelector("#form").addEventListener("submit",(event)=>{
 			event.preventDefault();
-			this.GetDataForm();
-			if( this.pw && this.pw != this.pw2 ){
+			var DataForm = new CreatePage();
+			var data = DataForm.GetDataForm();
+			data.id = this.id;
+			if( data.pw && data.pw != data.pw2 ){
 				alert("Пароли не совпадают");
 				event.preventDefault();
 			}
-			var data = {   /// добавляем данные к запросу
-				name: this.name,
-				password: this.pw,
-				email: this.email,
-				comment: this.comment
-			};
-			this.SendRequest(data,"");
+			UserModel.prototype.Save.call(data,()=>{
+				window.location = "list-page.html";
+			});
 		})
 	}
 
@@ -45,19 +51,6 @@ export default class EditPage {
 		document.querySelector("input[name=comment]").value = this.comment;
 	}
 
-	/**
-	 * Удаление пользователя
-	 * @param id идентификатор пользователя
-	 * @constructor
-     */
-	DeleteUser(id,callback){
-		var data = {};
-		CreatePage.prototype.SendRequest.call(this,data,id);
-		alert("Пользователь удален!");
-		if(callback){
-			callback();
-		}
-	}
 }
 
 export default function initPage() {
