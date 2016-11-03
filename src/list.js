@@ -2,7 +2,8 @@ import {UserModel} from "../src/user-model.js"
 
 export class ListPage {
 	constructor(){
-
+		this.DecodeUrl();
+		console.log(this);
 		this.GetUserList().PreparePagination();
 	}
 
@@ -11,13 +12,12 @@ export class ListPage {
 	 * @constructor
      */
 	DecodeUrl(){
-		debugger;
 		var vars = {};
 		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
 			vars[key] = value;
 		});
-		this.skip = vars.skip;
-		this.limit = vars.limit;
+		this.skip = vars.skip ? vars.skip : 0;
+		this.limit = vars.limit ? vars.limit : document.querySelector("#pageQtty").value;
 	}
 
 	/**
@@ -25,17 +25,16 @@ export class ListPage {
 	 * @constructor
      */
 	PreparePagination(){
-		debugger;
-		this.pageQtty = document.querySelector("#pageQtty").value;
+		//this.pageQtty = document.querySelector("#pageQtty").value;
 		var qttyPages = 4;//Math.round( this.userQtty / this.pageQtty );
 		for(var i=1;i<=qttyPages;i++){
 			var elementA = document.createElement("a");
-			elementA.href = "?skip="+parseInt( (i-1)*this.pageQtty )+"&limit="+this.pageQtty;
+			elementA.href = "?skip="+parseInt( (i-1)*this.limit )+"&limit="+this.limit;
 			var elementLi = document.createElement("li");
 			elementA.innerText = i;
 			document.querySelector(".hor_nav").appendChild(elementLi.appendChild(elementA));
 		}
-	}
+	}  
 
 	/**
 	 * Навешивание событий
@@ -78,7 +77,6 @@ export class ListPage {
 			this.limit = event.target.value;
 			window.location = "list-page.html?skip="+this.skip+"&limit="+this.limit;
 		});
-		debugger;
 		this.DecodeUrl();
 		if(typeof(this.limit) != "undefined")
 			document.querySelector("#pageQtty").value = this.limit;
@@ -89,8 +87,8 @@ export class ListPage {
 	 * @constructor
      */
 	GetUserList() {
-		UserModel.GetList((data,header)=>{
-			console.log(header);
+		var pagination = "?skip="+this.skip+"&limit="+this.limit;
+		UserModel.GetList(pagination,(data,header)=>{
 			this.AppendData(data);
 			this.submitButton();
 			this.userQtty = header;

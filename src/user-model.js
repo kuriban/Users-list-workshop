@@ -17,8 +17,8 @@ export class UserModel {
         SendRequest("","DELETE",id,callback);
     }
 
-    static GetList(callback){
-        SendRequest("","GET","", callback);
+    static GetList(pagination,callback){
+        SendRequest("","GET",pagination, callback);
     }
 
     static GetOneUser(id,callback){
@@ -49,9 +49,9 @@ function SendRequest(data,method,parametr_request, callback){
     var headersResponse = "";
     fetch(myRequest)   //говорим запросу выполнится
         .then((response)=> {
+            headersResponse = response.headers.get("X-Total-Count");
             if(response.status >=200 && response.status < 300){
                 if(response.statusText != "No Content") {
-                    headersResponse = response.headers.get("X-Total-Count");
                     return response.json(); /// парсим ответ от сервера в json
                 }
             }else{
