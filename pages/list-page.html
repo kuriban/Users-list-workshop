@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link href="/css/style.css" rel="stylesheet">
     <title>List page</title>
     <script type="text/javascript">
       pageName="list";
@@ -13,8 +13,15 @@
     <meta name="mobile-web-app-capable" content="yes">
   </head>
   <body>
-
+  <span>Показывать на странице</span>
+  <select id="pageQtty">
+    <option value="5">5</option>
+    <option selected value="10">10</option>
+    <option value="15">15</option>
+    <option value="20">20</option>
+  </select>
     <main>
+
       <table style="border: 1px solid black">
         <tr>
           <input type="button" name="createUser" value="Создать пользователя">
@@ -27,6 +34,9 @@
       </table>
     </main>
 
+    <div id="pagination">
+      <ul class="hor_nav"></ul>
+    </div>
 
     <script src="../dist/app.js"> </script>
   </body>

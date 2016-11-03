@@ -2,7 +2,39 @@ import {UserModel} from "../src/user-model.js"
 
 export class ListPage {
 	constructor(){
-		this.GetUserList();
+
+		this.GetUserList().PreparePagination();
+	}
+
+	/**
+	 * Определяем skip и limit из адресной строки
+	 * @constructor
+     */
+	DecodeUrl(){
+		debugger;
+		var vars = {};
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+			vars[key] = value;
+		});
+		this.skip = vars.skip;
+		this.limit = vars.limit;
+	}
+
+	/**
+	 * Подготавливаем блок пагинации
+	 * @constructor
+     */
+	PreparePagination(){
+		debugger;
+		this.pageQtty = document.querySelector("#pageQtty").value;
+		var qttyPages = 4;//Math.round( this.userQtty / this.pageQtty );
+		for(var i=1;i<=qttyPages;i++){
+			var elementA = document.createElement("a");
+			elementA.href = "?skip="+parseInt( (i-1)*this.pageQtty )+"&limit="+this.pageQtty;
+			var elementLi = document.createElement("li");
+			elementA.innerText = i;
+			document.querySelector(".hor_nav").appendChild(elementLi.appendChild(elementA));
+		}
 	}
 
 	/**
@@ -41,6 +73,15 @@ export class ListPage {
 				window.location.href = "edit-page.html"+url;
 			})
 		});
+
+		document.querySelector("#pageQtty").addEventListener("change",(event)=>{
+			this.limit = event.target.value;
+			window.location = "list-page.html?skip="+this.skip+"&limit="+this.limit;
+		});
+		debugger;
+		this.DecodeUrl();
+		if(typeof(this.limit) != "undefined")
+			document.querySelector("#pageQtty").value = this.limit;
 	}
 
 	/**
@@ -48,11 +89,13 @@ export class ListPage {
 	 * @constructor
      */
 	GetUserList() {
-		UserModel.GetList((data)=>{
+		UserModel.GetList((data,header)=>{
+			console.log(header);
 			this.AppendData(data);
 			this.submitButton();
-		})
-
+			this.userQtty = header;
+		});
+		return this;
 	}
 
 	/**

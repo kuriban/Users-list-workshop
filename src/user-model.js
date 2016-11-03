@@ -24,6 +24,9 @@ export class UserModel {
     static GetOneUser(id,callback){
         SendRequest("","GET",id, callback);
     }
+
+
+
 }
 
 function SendRequest(data,method,parametr_request, callback){
@@ -43,11 +46,12 @@ function SendRequest(data,method,parametr_request, callback){
         body: data
     };
     var myRequest = new Request(url, myInit); // создаём запрос
-
+    var headersResponse = "";
     fetch(myRequest)   //говорим запросу выполнится
-        .then(function(response) {
+        .then((response)=> {
             if(response.status >=200 && response.status < 300){
                 if(response.statusText != "No Content") {
+                    headersResponse = response.headers.get("X-Total-Count");
                     return response.json(); /// парсим ответ от сервера в json
                 }
             }else{
@@ -55,12 +59,11 @@ function SendRequest(data,method,parametr_request, callback){
             }
         })
         .then((json)=> {
-            //console.log(json);
-              callback(json);
+              //console.log(json);
+              callback(json,headersResponse);
         }).catch(()=>{
         alert("Упс!!! Что-то пошло не так");
     });
 }
-
 
 
