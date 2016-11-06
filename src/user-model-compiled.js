@@ -26,7 +26,6 @@ export class UserModel {
     }
 
 }
-
 function SendRequest(data, method, parametr_request, callback) {
     var url = "http://193.111.63.76:3000/api/v1/Users";
 
@@ -35,7 +34,7 @@ function SendRequest(data, method, parametr_request, callback) {
     }
     data == "" ? data = null : data = JSON.stringify(data);
     var myHeaders = new Headers(); // создаём объект заголовков
-    myHeaders.append("Content-Type", "application/json"); /// добавляем заголовок Content-Type чтоб сказать серверу в каком формате данные передаём
+    myHeaders.append("Content-Type", "application/json", "Access-Control-Allow-Origin: *"); /// добавляем заголовок Content-Type чтоб сказать серверу в каком формате данные передаём
     var myInit = {
         method: method, // указываем метод запроса
         headers: myHeaders, // добавляем заголовки
@@ -56,7 +55,6 @@ function SendRequest(data, method, parametr_request, callback) {
             return Promise.reject();
         }
     }).then(json => {
-        //console.log(json);
         callback(json, headersResponse);
     }).catch(() => {
         alert("Упс!!! Что-то пошло не так");

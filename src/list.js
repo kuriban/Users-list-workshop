@@ -1,10 +1,11 @@
 import {UserModel} from "../src/user-model.js"
 
 export class ListPage {
+
 	constructor(){
+		this.userQtty = 0;
 		this.DecodeUrl();
-		console.log(this);
-		this.GetUserList().PreparePagination();
+		this.GetUserList();
 	}
 
 	/**
@@ -25,8 +26,8 @@ export class ListPage {
 	 * @constructor
      */
 	PreparePagination(){
-		//this.pageQtty = document.querySelector("#pageQtty").value;
-		var qttyPages = 4;//Math.round( this.userQtty / this.pageQtty );
+		console.log('this1', this);
+		var qttyPages = Math.floor(this.userQtty/this.limit)  + 1;
 		for(var i=1;i<=qttyPages;i++){
 			var elementA = document.createElement("a");
 			elementA.href = "?skip="+parseInt( (i-1)*this.limit )+"&limit="+this.limit;
@@ -34,7 +35,7 @@ export class ListPage {
 			elementA.innerText = i;
 			document.querySelector(".hor_nav").appendChild(elementLi.appendChild(elementA));
 		}
-	}  
+	}
 
 	/**
 	 * Навешивание событий
@@ -80,6 +81,7 @@ export class ListPage {
 		this.DecodeUrl();
 		if(typeof(this.limit) != "undefined")
 			document.querySelector("#pageQtty").value = this.limit;
+		return this;
 	}
 
 	/**
@@ -92,7 +94,9 @@ export class ListPage {
 			this.AppendData(data);
 			this.submitButton();
 			this.userQtty = header;
+			this.PreparePagination();
 		});
+
 		return this;
 	}
 
